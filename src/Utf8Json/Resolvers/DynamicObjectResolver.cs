@@ -38,6 +38,8 @@ namespace Utf8Json.Resolvers
         public static readonly IJsonFormatterResolver AllowPrivateSnakeCase = DynamicObjectResolverAllowPrivateTrueExcludeNullFalseNameMutateSnakeCase.Instance;
         /// <summary>AllowPrivate:True,  ExcludeNull:True,  NameMutate:Original</summary>
         public static readonly IJsonFormatterResolver AllowPrivateExcludeNull = DynamicObjectResolverAllowPrivateTrueExcludeNullTrueNameMutateOriginal.Instance;
+        /// <summary>AllowPrivate:True,  ExcludeNull:True,  NameMutate:Original</summary>
+        public static readonly IJsonFormatterResolver AllowPrivateExcludeNullExcludeDefault = DynamicObjectResolverAllowPrivateTrueExcludeNullTrueExcludeDefaultTrueNameMutateOriginal.Instance;
         /// <summary>AllowPrivate:True,  ExcludeNull:True,  NameMutate:CamelCase</summary>
         public static readonly IJsonFormatterResolver AllowPrivateExcludeNullCamelCase = DynamicObjectResolverAllowPrivateTrueExcludeNullTrueNameMutateCamelCase.Instance;
         /// <summary>AllowPrivate:True,  ExcludeNull:True,  NameMutate:SnakeCase</summary>
@@ -96,7 +98,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull, false);
             }
         }
     }
@@ -141,7 +143,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull, false);
             }
         }
     }
@@ -186,7 +188,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull, false);
             }
         }
     }
@@ -231,7 +233,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull, false);
             }
         }
     }
@@ -276,7 +278,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull, false);
             }
         }
     }
@@ -321,7 +323,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToAssembly<T>(assembly, Instance, nameMutator, excludeNull, false);
             }
         }
     }
@@ -348,7 +350,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, true);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, false, true);
             }
         }
     }
@@ -371,7 +373,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, true);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, false, true);
             }
         }
     }
@@ -394,7 +396,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, true);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, false, true);
             }
         }
     }
@@ -405,6 +407,7 @@ namespace Utf8Json.Resolvers.Internal
         public static readonly IJsonFormatterResolver Instance = new DynamicObjectResolverAllowPrivateTrueExcludeNullTrueNameMutateOriginal();
         static readonly Func<string, string> nameMutator = StringMutator.Original;
         static readonly bool excludeNull = true;
+        static readonly bool excludeDefaultValue = false;
 
         public IJsonFormatter<T> GetFormatter<T>()
         {
@@ -417,11 +420,35 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, true);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, excludeDefaultValue, true);
             }
         }
     }
 
+    internal sealed class DynamicObjectResolverAllowPrivateTrueExcludeNullTrueExcludeDefaultTrueNameMutateOriginal : IJsonFormatterResolver
+    {
+        // configuration
+        public static readonly IJsonFormatterResolver Instance = new DynamicObjectResolverAllowPrivateTrueExcludeNullTrueExcludeDefaultTrueNameMutateOriginal();
+        static readonly Func<string, string> nameMutator = StringMutator.Original;
+        static readonly bool excludeNull = true;
+        static readonly bool excludeDefaultValue = true;
+
+        public IJsonFormatter<T> GetFormatter<T>()
+        {
+            return FormatterCache<T>.formatter;
+        }
+
+        static class FormatterCache<T>
+        {
+            public static readonly IJsonFormatter<T> formatter;
+
+            static FormatterCache()
+            {
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, excludeDefaultValue, true);
+            }
+        }
+    }
+    
     internal sealed class DynamicObjectResolverAllowPrivateTrueExcludeNullTrueNameMutateCamelCase : IJsonFormatterResolver
     {
         // configuration
@@ -440,7 +467,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, true);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, false, true);
             }
         }
     }
@@ -463,7 +490,7 @@ namespace Utf8Json.Resolvers.Internal
 
             static FormatterCache()
             {
-                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, true);
+                formatter = (IJsonFormatter<T>)DynamicObjectTypeBuilder.BuildFormatterToDynamicMethod<T>(Instance, nameMutator, excludeNull, false, true);
             }
         }
     }
@@ -520,7 +547,7 @@ namespace Utf8Json.Resolvers.Internal
             {typeof(string)},
         };
 
-        public static object BuildFormatterToAssembly<T>(DynamicAssembly assembly, IJsonFormatterResolver selfResolver, Func<string, string> nameMutator, bool excludeNull)
+        public static object BuildFormatterToAssembly<T>(DynamicAssembly assembly, IJsonFormatterResolver selfResolver, Func<string, string> nameMutator, bool excludeNull, bool excludeDefaultValue)
         {
             var ti = typeof(T).GetTypeInfo();
 
@@ -539,20 +566,20 @@ namespace Utf8Json.Resolvers.Internal
             Type elementType;
             if (typeof(Exception).GetTypeInfo().IsAssignableFrom(ti))
             {
-                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, false, true);
+                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, excludeDefaultValue, false, true);
             }
             else if (ti.IsAnonymous() || TryGetInterfaceEnumerableElementType(typeof(T), out elementType))
             {
-                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, false, false);
+                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, excludeDefaultValue, false, false);
             }
 
-            var formatterTypeInfo = DynamicObjectTypeBuilder.BuildType(assembly, typeof(T), nameMutator, excludeNull);
+            var formatterTypeInfo = DynamicObjectTypeBuilder.BuildType(assembly, typeof(T), nameMutator, excludeNull, excludeDefaultValue);
             if (formatterTypeInfo == null) return null;
 
             return (IJsonFormatter<T>)Activator.CreateInstance(formatterTypeInfo.AsType());
         }
 
-        public static object BuildFormatterToDynamicMethod<T>(IJsonFormatterResolver selfResolver, Func<string, string> nameMutator, bool excludeNull, bool allowPrivate)
+        public static object BuildFormatterToDynamicMethod<T>(IJsonFormatterResolver selfResolver, Func<string, string> nameMutator, bool excludeNull, bool excludeDefaultValue, bool allowPrivate)
         {
             var ti = typeof(T).GetTypeInfo();
 
@@ -569,15 +596,15 @@ namespace Utf8Json.Resolvers.Internal
             }
             if (typeof(Exception).GetTypeInfo().IsAssignableFrom(ti))
             {
-                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, false, true);
+                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, excludeDefaultValue, false, true);
             }
             else
             {
-                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, allowPrivate, false);
+                return DynamicObjectTypeBuilder.BuildAnonymousFormatter(typeof(T), nameMutator, excludeNull, excludeDefaultValue, allowPrivate, false);
             }
         }
 
-        static TypeInfo BuildType(DynamicAssembly assembly, Type type, Func<string, string> nameMutator, bool excludeNull)
+        static TypeInfo BuildType(DynamicAssembly assembly, Type type, Func<string, string> nameMutator, bool excludeNull, bool excludeDefaultValue)
         {
             if (ignoreTypes.Contains(type)) return null;
 
@@ -617,7 +644,7 @@ namespace Utf8Json.Resolvers.Internal
                     il.EmitLoadThis();
                     il.EmitLdfld(fi);
                     return true;
-                }, excludeNull, hasShouldSerialize, 1); // firstArgIndex:0 is this.
+                }, excludeNull, hasShouldSerialize, excludeDefaultValue, 1); // firstArgIndex:0 is this.
             }
 
             {
@@ -640,7 +667,7 @@ namespace Utf8Json.Resolvers.Internal
             return typeBuilder.CreateTypeInfo();
         }
 
-        public static object BuildAnonymousFormatter(Type type, Func<string, string> nameMutator, bool excludeNull, bool allowPrivate, bool isException)
+        public static object BuildAnonymousFormatter(Type type, Func<string, string> nameMutator, bool excludeNull, bool excludeDefaultValue, bool allowPrivate, bool isException)
         {
             if (ignoreTypes.Contains(type)) return false;
 
@@ -673,7 +700,7 @@ namespace Utf8Json.Resolvers.Internal
             var i = 0;
             foreach (var item in serializationInfo.Members.Where(x => x.IsReadable))
             {
-                if (excludeNull || hasShouldSerialize)
+                if (excludeNull || hasShouldSerialize || excludeDefaultValue)
                 {
                     stringByteKeysField.Add(JsonWriter.GetEncodedPropertyName(item.Name));
                 }
@@ -736,7 +763,7 @@ namespace Utf8Json.Resolvers.Internal
                      il.Emit(OpCodes.Ldelem_Ref); // object
                      il.Emit(OpCodes.Castclass, serializeCustomFormatters[index].GetType());
                      return true;
-                 }, excludeNull, hasShouldSerialize, 2);
+                 }, excludeNull, hasShouldSerialize, excludeDefaultValue, 2);
             }
 
             var deserialize = new DynamicMethod("Deserialize", type, new Type[] { typeof(object[]), typeof(JsonReader).MakeByRefType(), typeof(IJsonFormatterResolver) }, type.Module, true);
@@ -857,7 +884,7 @@ namespace Utf8Json.Resolvers.Internal
             return dict;
         }
 
-        static void BuildSerialize(Type type, MetaType info, ILGenerator il, Action emitStringByteKeys, Func<int, MetaMember, bool> tryEmitLoadCustomFormatter, bool excludeNull, bool hasShouldSerialize, int firstArgIndex)
+        static void BuildSerialize(Type type, MetaType info, ILGenerator il, Action emitStringByteKeys, Func<int, MetaMember, bool> tryEmitLoadCustomFormatter, bool excludeNull, bool hasShouldSerialize, bool excludeDefaultValue, int firstArgIndex)
         {
             var argWriter = new ArgumentField(il, firstArgIndex);
             var argValue = new ArgumentField(il, firstArgIndex + 1, type);
@@ -956,7 +983,7 @@ namespace Utf8Json.Resolvers.Internal
             var index = 0;
             foreach (var item in info.Members.Where(x => x.IsReadable))
             {
-                if (excludeNull || hasShouldSerialize)
+                if (excludeNull || hasShouldSerialize || excludeDefaultValue)
                 {
                     il.MarkLabel(labels[index]);
 
@@ -979,6 +1006,45 @@ namespace Utf8Json.Resolvers.Internal
                             argValue.EmitLoad();
                             item.EmitLoadValue(il);
                             il.Emit(OpCodes.Brfalse_S, (index < labels.Length - 1) ? labels[index + 1] : endObjectLabel); // null, next label
+                        }
+                    }
+                    if (excludeDefaultValue)
+                    {
+                        // if (value == default) continue;
+                        if (item.Type.IsPrimitive)
+                        {
+                            if (item.Type == typeof(double))
+                            {
+                                argValue.EmitLoad();
+                                item.EmitLoadValue(il);
+                                il.Emit(OpCodes.Ldc_R4, 0);
+                                il.Emit(OpCodes.Ceq);
+                                il.Emit(OpCodes.Brtrue_S, (index < labels.Length - 1) ? labels[index + 1] : endObjectLabel); // default value, next label
+                            }
+                            else
+                            {
+                                argValue.EmitLoad();
+                                item.EmitLoadValue(il);
+                                il.Emit(OpCodes.Ldc_I4_0);
+                                il.Emit(OpCodes.Ceq);
+                                il.Emit(OpCodes.Brtrue_S, (index < labels.Length - 1) ? labels[index + 1] : endObjectLabel); // default value, next label
+                            }
+                        }
+                        else if (item.Type == typeof(decimal))
+                        {
+                            argValue.EmitLoad();
+                            item.EmitLoadValue(il);
+                            il.Emit(OpCodes.Ldsfld, EmitInfo.DecimalZeroFld);
+                            il.EmitCall(EmitInfo.DecimalEquals);
+                            il.Emit(OpCodes.Brtrue_S, (index < labels.Length - 1) ? labels[index + 1] : endObjectLabel); // default value, next label
+                        }
+                        else if (item.Type.IsEnum)
+                        {
+                            argValue.EmitLoad();
+                            item.EmitLoadValue(il);
+                            il.Emit(OpCodes.Ldc_I4_0);
+                            il.Emit(OpCodes.Ceq);
+                            il.Emit(OpCodes.Brtrue_S, (index < labels.Length - 1) ? labels[index + 1] : endObjectLabel); // default value, next label
                         }
                     }
                     if (hasShouldSerialize && item.ShouldSerializeMethodInfo != null)
@@ -1502,6 +1568,10 @@ namespace Utf8Json.Resolvers.Internal
             public static readonly MethodInfo TypeEquals = ExpressionUtility.GetMethodInfo((Type t) => t.Equals(default(Type)));
 
             public static readonly MethodInfo NongenericSerialize = ExpressionUtility.GetMethodInfo<Utf8Json.JsonWriter>(writer => JsonSerializer.NonGeneric.Serialize(default(Type), ref writer, default(object), default(IJsonFormatterResolver)));
+
+            public static readonly FieldInfo DecimalZeroFld = typeof(decimal).GetField("Zero");
+            public static readonly MethodInfo DecimalEquals = typeof(decimal).GetMethod("Equals", new Type[] { typeof(decimal), typeof(decimal) });
+
 
             public static MethodInfo Serialize(Type type)
             {
